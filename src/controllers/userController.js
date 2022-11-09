@@ -60,6 +60,43 @@ const create = async(req,res)=>{
     }
 }
 
+
+const findbyIdAndUpdate = async(req,res)=>{
+    try
+    {
+        console.log(req.body);
+        const users = await  User.update(req.body,{
+            where:{
+                id: req.params.id
+            }
+        })
+        //res.json(users)
+        res.redirect('/user?page=1');
+    }
+    catch(error){
+        res.status(400).json({
+            message: error.message
+        })
+    }
+}
+
+const findbyIdAndDelete = async(req,res)=>{
+    try
+    {
+        const users = await  User.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        res.redirect('/user?page=1');
+    }
+    catch(error){
+        res.status(400).json({
+            message: error.message
+        })
+    }
+}
+
 const addFriend = async(req,res)=>{
     try
     {
@@ -135,41 +172,6 @@ const getFriends = async(req,res)=>{
 }
 
 
-const findbyIdAndUpdate = async(req,res)=>{
-    try
-    {
-        console.log(req.body);
-        const users = await  User.update(req.body,{
-            where:{
-                id: req.params.id
-            }
-        })
-        //res.json(users)
-        res.redirect('/user?page=1');
-    }
-    catch(error){
-        res.status(400).json({
-            message: error.message
-        })
-    }
-}
-
-const findbyIdAndDelete = async(req,res)=>{
-    try
-    {
-        const users = await  User.destroy({
-            where: {
-                id: req.params.id
-            }
-        })
-        res.redirect('/user?page=1');
-    }
-    catch(error){
-        res.status(400).json({
-            message: error.message
-        })
-    }
-}
 
 const friendsList = async(req,res)=>{
     try{
@@ -187,13 +189,6 @@ const friendsList = async(req,res)=>{
                     ]
                 }
               });
-                // const friend=await Friend.findAll({user_id:userid})
-                // for(let i in friend){
-                //     var index = result.findIndex(p => p.id == friend[i].friend_id);
-                //     result.splice(index)
-                    
-                // }
-        //res.send(result)
         
           const html = await ejs.renderFile(path.join(__dirname,"../../views/friends.ejs"),{users:result,search:search});
           res.send(html);
