@@ -46,7 +46,6 @@ const findbyId = async(req,res)=>{
 const create = async(req,res)=>{
     try
     {
-        console.log(req.body);
         let rec = await User.findOne({ order: [ [ 'id', 'DESC' ]], });
         let custid=Number(rec.id.substring(4));
         let newId= "USR-"+(custid+1);
@@ -64,7 +63,6 @@ const create = async(req,res)=>{
 const findbyIdAndUpdate = async(req,res)=>{
     try
     {
-        console.log(req.body);
         const users = await  User.update(req.body,{
             where:{
                 id: req.params.id
@@ -109,7 +107,7 @@ const addFriend = async(req,res)=>{
             }
         })
         if(find){
-            res.send('Already Friends')
+            res.send({error:'Already Friends'})
         }
         else{
             const create= await  Friend.create({
@@ -126,8 +124,7 @@ const addFriend = async(req,res)=>{
                         as: "user"
                     }]
                 })
-                const html = await ejs.renderFile(path.join(__dirname,"../../views/friendList.ejs"),{users:result});
-                res.send(html); 
+                res.send(result); 
             }
         }
         
@@ -156,7 +153,7 @@ const getFriends = async(req,res)=>{
                 include: [
                 {
                     model: User,
-                    as: "user"
+                    as: "frnd"
                 }]
             })
             results.push(result1,result2)

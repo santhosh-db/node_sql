@@ -27,13 +27,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <% for(let i=0; i<users.length; i++) {  %>
-                            <tr>
-                                <td><%= users[i].user.name %></td>
-                                <td><%= users[i].user.email %></td>
-                                
-                            </tr>
-                            <% }  %>
+                            <%  for(let i=0; i<users.length; i++) { 
+                                    if(users[i].user){%>
+                                        <tr>
+                                            <td><%= users[i].user.dataValues.name %></td>
+                                            <td><%= users[i].user.dataValues.email %></td>
+                                        </tr>
+                                <% }else{%>
+                                        <tr>
+                                            <td><%= users[i].frnd.dataValues.name %></td>
+                                            <td><%= users[i].frnd.dataValues.email %></td>
+                                        </tr>
+                                  <%}%>
+                            <% } %>
                         </tbody>
                     </table> 
                 </div>
