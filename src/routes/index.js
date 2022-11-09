@@ -1,5 +1,6 @@
 const initializeRoutes = app => {
-    app.use("/api/user", require("./user"));
+    app.use("/user", require("./user"));
+    app.use('/',require("./auth"));
   };
   
 module.exports = initializeRoutes;

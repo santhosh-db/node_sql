@@ -1,5 +1,5 @@
 const dbConfig = require('../config/dbConfig');
-const Sequelize = require('sequelize');
+const {Sequelize,DataTypes} = require('sequelize');
 
 const sequelize= new Sequelize(dbConfig.DATABASE,dbConfig.USER,dbConfig.PASSWORD,
     {
@@ -10,11 +10,12 @@ const sequelize= new Sequelize(dbConfig.DATABASE,dbConfig.USER,dbConfig.PASSWORD
             max:5,
             idle:10000,
             acquire:30000
-        }
+        },
+        logging: process.env.NODE_ENV === 'production' ? false : console.log
     }
 )
 
-sequelize.sync()
+sequelize.authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
   })
@@ -26,6 +27,39 @@ const db={};
 db.sequelize=sequelize;
 db.models={};
 
-db.models.User = require('./User')(sequelize,Sequelize.DataTypes);
+db.models.User = require('./User')(sequelize,DataTypes);
+db.models.Friend = require('./Friend')(sequelize,DataTypes);
 
-module.exports=db;
+db.sequelize.sync({ force: false })
+.then(() => {
+    console.log('Table already exists')
+})
+
+
+
+// 1 to Many Relation
+
+db.models.User.hasMany(db.models.Friend, {
+    foreignKey: 'friend_id',
+    as: 'friend'
+})
+
+db.models.User.hasMany(db.models.Friend, {
+  foreignKey: 'user_id',
+  as: 'usr'
+})
+
+db.models.Friend.belongsTo(db.models.User, {
+    foreignKey: 'friend_id',
+    as: 'user'
+})
+
+db.models.Friend.belongsTo(db.models.User, {
+  foreignKey: 'user_id',
+  as: 'frnd'
+})
+
+
+
+
+module.exports = db

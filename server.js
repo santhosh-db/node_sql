@@ -1,6 +1,6 @@
 import express from 'express'; 
 import cors from 'cors';
-//import expressLayouts from 'express-ejs-layouts';
+import cookie from 'cookie-parser';
 import routers from './src/routes';
 import morgan from 'morgan';
 
@@ -9,11 +9,10 @@ require ('dotenv').config();
 const app=express()
 
 app.use(cors());
-
+app.use(cookie());
 
 //template engine
 app.set('view engine','ejs')
-//app.use(expressLayouts)
 
 // create application/json parser
 app.use(express.json())
@@ -26,13 +25,14 @@ app.use(express.urlencoded({ extended: true }))
 routers(app);
 
 //test api
-app.get('/login',(req,res)=>{
-    res.render('login')
-})
 
 app.get('/dash',(req,res)=>{
     res.render('dash')
 })
+
+//NODE_ENV
+console.log(`Node env is ${process.env.NODE_ENV}`);
+
 //PORT
 const PORT=process.env.PORT || 5000;
 

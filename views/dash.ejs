@@ -1,229 +1,275 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Blog</title>
-  </head>
-  <body style="background-color: rgb(237, 231, 223);">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">BLOG</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse w-100 order-3 dual-collapse">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item ">
-                        <a class="nav-link" href="dash.ejs">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nav 2</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nav 3</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nav 4</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="card col-lg-8 mx-auto mt-5">
-        <div class="card-body">
-            <div>
-            <b>USER</b>
-            <a href="#addEmployeeModal" class="btn btn-sm bg-success text-light float-right" data-toggle="modal"><i class="bi bi-person-plus-fill"></i> Add New</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-bordered mt-4"  style="overflow-x:auto;">
-                    <thead>
-                    <tr>
-                        <th scope="col">SNo</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <% for(var i=0; i<users.length; i++) {%>
-                    <tr>
-                        <th scope="row"><%= users[i].id %></th>
-                        <td><%= users[i].name %></td>
-                        <td><%= users[i].email %></td>
-                        <td><%= users[i].address %></td>
-                        <td><%= users[i].phone %></td>
-                        <td> 
-                            <a href="#viewEmployeeModal<%= users[i].id %>" class="btn btn-sm bg-info text-light" data-toggle="modal"><i class="bi bi-eye"></i></a>
-                            <a href="#editEmployeeModal<%= users[i].id %>" class="btn btn-sm bg-warning text-light" data-toggle="modal"><i class="bi bi-pencil-fill"></i></a> 
-                            <a href="#deleteEmployeeModal<%= users[i].id %>" class="btn btn-sm bg-danger text-light" data-toggle="modal"><i class="bi bi-trash3-fill"></i></a>
-                        </td>
-                        
-                    </tr>
-                    <% }  %>
-                    </tbody>
-                </table> 
-            </div>
-            
-    <div id="addEmployeeModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/api/user/create" method="post">
-                    <div class="modal-header">						
-                        <h4 class="modal-title">Add User</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>Task</title>
+    </head>
+    <body style="background-color: rgb(237, 231, 223);">
+        <%- include('partials/nav'); -%>
+
+
+       
+        
+        <div class="card col-lg-8 mx-auto mt-5">
+            <div class="card-body">
+                <div>
+                    <b>USER</b>
+                    <div class="float-right">
+                        <input type="text" placeholder="Search" name="search">
+                        <a href="#addEmployeeModal" class="btn btn-sm bg-success text-light" data-toggle="modal"><i class="bi bi-person-plus-fill"></i> Add New</a>
                     </div>
-                    <div class="modal-body">					
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control"name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea class="form-control" name="address" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" class="form-control" name="phone" required>
-                        </div>		
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" name="password" required>
-                        </div>				
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-success" value="Add">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <% for(var i=0; i<users.length; i++) 
-    {
-    %>
-    <div id="viewEmployeeModal<%= users[i].id %>" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content pr-2">
-                <h4 class="modal-title pl-2 pt-2">View User
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </h4>
-                <div class="table-responsive mt-4 pl-2">
-                    <table class="table table-bordered "  style="overflow-x:auto;">
-                        <tr>
-                            <th scope="row">SNo</th> 
-                            <th scope="row"><%= users[i].id %></th>
-                        </tr>
-                        <tr>
-                            <th scope="row">Name</th>
-                            <td><%= users[i].name %></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Email</th>
-                            <td><%= users[i].email %></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Address</th>
-                            <td><%= users[i].address %></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Phone</th>
-                            <td><%= users[i].phone %></td> 
-                        </tr>
-                        <tr>
-                            <th scope="row">Password</th>
-                            <td><%= users[i].password %></td> 
-                        </tr>
-                    </table>
-                    
                 </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered mt-4"  style="overflow-x:auto;">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i=0; i<users.length; i++) {  %>
+                            <tr>
+                                <th scope="row"><%= users[i].id %></th>
+                                <td><%= users[i].name %></td>
+                                <td><%= users[i].email %></td>
+                                <td><%= users[i].address %></td>
+                                <td><%= users[i].phone %></td>
+                                <td> 
+                                    <a href="#viewEmployeeModal<%= users[i].id %>" class="btn btn-sm bg-info text-light" data-toggle="modal"><i class="bi bi-eye"></i></a>
+                                    <a href="#editEmployeeModal<%= users[i].id %>" class="btn btn-sm bg-warning text-light" data-toggle="modal"><i class="bi bi-pencil-fill"></i></a> 
+                                    <a href="#deleteEmployeeModal<%= users[i].id %>" class="btn btn-sm bg-danger text-light" data-toggle="modal"><i class="bi bi-trash3-fill"></i></a>
+                                </td>
+                            </tr>
+                            <% }  %>
+                        </tbody>
+                    </table> 
+                </div>
+                <div id="addEmployeeModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="/user/create" method="post">
+                                <div class="modal-header">						
+                                    <h4 class="modal-title">Add User</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">					
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control"name="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <textarea class="form-control" name="address" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input type="text" class="form-control" name="phone" required>
+                                    </div>		
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" class="form-control" name="password" required>
+                                    </div>				
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                    <input type="submit" class="btn btn-success" value="Add">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <% 
+                    for(var i=0; i<users.length; i++) 
+                    {
+                %>
+                    <div id="viewEmployeeModal<%= users[i].id %>" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content pr-2">
+                                <h4 class="modal-title pl-2 pt-2">View User
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </h4>
+                                <div class="table-responsive mt-4 pl-2">
+                                    <table class="table table-bordered "  style="overflow-x:auto;">
+                                        <tr>
+                                            <th scope="row">ID</th> 
+                                            <th scope="row"><%= users[i].id %></th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Name</th>
+                                            <td><%= users[i].name %></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Email</th>
+                                            <td><%= users[i].email %></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Address</th>
+                                            <td><%= users[i].address %></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Phone</th>
+                                            <td><%= users[i].phone %></td> 
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Password</th>
+                                            <td><%= users[i].password %></td> 
+                                        </tr>
+                                    </table>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="editEmployeeModal<%= users[i].id %>" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="/user/update/<%= users[i].id %>" method="post">
+                                    <div class="modal-header">						
+                                        <h4 class="modal-title">Edit User</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">					
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" name="name" value="<%= users[i].name %>" class="form-control" required >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" name="email" value="<%= users[i].email %>" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <textarea class="form-control" name="address" required><%= users[i].address %></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Phone</label>
+                                            <input type="text" class="form-control" name="phone" value="<%= users[i].phone %>"required>
+                                        </div>	
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            <input type="text" class="form-control" name="password" value="<%= users[i].password %>" required>
+                                        </div>				
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-info" value="Save">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="deleteEmployeeModal<%= users[i].id %>" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="/user/delete/<%= users[i].id %>" method="post">
+                                    <div class="modal-header">						
+                                        <h4 class="modal-title">Delete User</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">					
+                                        <p>Are you sure you want to delete these Records?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% 
+                    } 
+                %> 
+                <div class="clearfix">
+                    <% if (pages > 0) { %>
+                    <div class="hint-text">Showing <b><%= current %></b> out of <b><%= pages %></b> entries
+                    <ul class="pagination float-right">
+                        <% if (current == 1) { %>
+                            <li class="page-item disabled"><a class="text-dark page-link"><i class="bi bi-chevron-double-left"></i></a></li>
+                        <% } else { %>
+                            <li class="page-item"><a href="/user?page=1" class="text-dark page-link"><i class="bi bi-chevron-double-left"></i></a></li>
+                        <% } %>
+                                                
+                        <% if (current!=1) { %>
+                            <li class="page-item"><a href="/user?page=<%= current-1 %>" class="text-dark page-link"><i class="bi bi-chevron-left"></i></a></li>
+                            <% }else{ %>
+                            <li class="page-item"><a href="/user?page=<%= current %>" class="text-dark page-link"><i class="bi bi-chevron-left"></i></a></li>
+                            <% } %>
+                        
+                        <% for (i=1; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                            <% if (i == current) { %>
+                                <li class="page-item"><a class="text-primary bg-light page-link"><%= i %></a></li>
+                        <% } else { %>
+                            <li class="page-item"><a href="/user?page=<%= i %>"class="text-dark page-link"><%= i %> </a></li>
+                            <% } %>
+                            <% if (i == Number(current) + 4 && i < pages) { %>
+                                <li class="page-item disabled"><a class="text-dark page-link">...</a></li>
+                            <% } %>
+                            
+                            <% } %>    
+                            <% } %>
+                            <% if (current!=pages) { %>
+                                <li class="page-item"><a href="/user?page=<%= current+1 %>" class="text-dark page-link"><i class="bi bi-chevron-right"></i></a></li>
+                                <% }else{ %>
+                                <li class="page-item"><a href="/user?page=<%= pages %>" class="text-dark page-link"><i class="bi bi-chevron-right"></i></a></li>
+                                <% } %>   
+                                <% if (current == pages) { %>
+                                    <li class="page-item disabled"><a class="text-dark page-link"><i class="bi bi-chevron-double-right"></i></a></li>
+                                <% } else { %>
+                                    <li class="page-item"><a href="/user?page=<%= pages %>" class="text-dark page-link"><i class="bi bi-chevron-double-right"></i></a></li>
+                                <% } %>        
+                    </ul>
+                    
+                   
+                    </div>
+                </div>
+                <!-- <div class="container">
+                        <% if (pages > 0) { %>
+                            <ul class="pagination text-center">
+                                <% if (current == 1) { %>
+                                    <li class="disabled"><a>First</a></li>
+                                <% } else { %>
+                                    <li><a href="/user/1">First</a></li>
+                                <% } %>
+                                <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                <% if (i !== 1) { %>
+                                    <li class="disabled"><a>...</a></li>
+                                <% } %>
+                                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                    <% if (i == current) { %>
+                                        <li class="active"><a><%= i %></a></li>
+                                    <% } else { %>
+                                        <li><a href="/user/<%= i %>"><%= i %></a></li>
+                                    <% } %>
+                                    <% if (i == Number(current) + 4 && i < pages) { %>
+                                        <li class="disabled"><a>...</a></li>
+                                    <% } %>
+                                <% } %>
+                                <% if (current == pages) { %>
+                                    <li class="disabled"><a>Last</a></li>
+                                <% } else { %>
+                                    <li><a href="/user/<%= pages %>">Last</a></li>
+                                <% } %>
+                            </ul>
+                        <% } %>
+                </div> -->
             </div>
         </div>
-    </div>
-    <div id="editEmployeeModal<%= users[i].id %>" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/api/user/update/<%= users[i].id %>" method="post">
-                    <div class="modal-header">						
-                        <h4 class="modal-title">Edit User</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">					
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" name="name" value="<%= users[i].name %>" class="form-control" required >
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" value="<%= users[i].email %>" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea class="form-control" name="address" required><%= users[i].address %></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" class="form-control" name="phone" value="<%= users[i].phone %>"required>
-                        </div>	
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="text" class="form-control" name="password" value="<%= users[i].password %>" required>
-                        </div>				
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-info" value="Save">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div id="deleteEmployeeModal<%= users[i].id %>" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/api/user/delete/<%= users[i].id %>" method="post">
-                    <div class="modal-header">						
-                        <h4 class="modal-title">Delete User</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">					
-                        <p>Are you sure you want to delete these Records?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-danger" value="Delete">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <% } %>
-    <div class="clearfix">
-        <div class="hint-text">Showing <b>5</b> out of <b>10</b> entries
-        <ul class="pagination float-right">
-            <li class="page-item"><a href="#" class="text-dark page-link"><i class="bi bi-chevron-double-left"></i></a></li>
-            <li class="page-item"><a href="#" class="text-dark page-link">1</a></li>
-            <li class="page-item"><a href="#" class="text-dark page-link">2</a></li>
-            <li class="page-item"><a href="#" class="text-dark page-link">3</a></li>
-            <li class="page-item"><a href="#" class="text-dark page-link">4</a></li>
-            <li class="page-item"><a href="#" class="text-dark page-link">5</a></li>
-            <li class="page-item"><a href="#" class="text-dark page-link"><i class="bi bi-chevron-double-right"></i></a></li>
-        </ul>
-        </div>
-    </div>
-</div>
-</div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
+       
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
 </html>
