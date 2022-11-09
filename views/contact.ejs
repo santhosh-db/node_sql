@@ -61,11 +61,12 @@
                     body:JSON.stringify({name,email,subject,message}),
                     headers:{'Content-Type':'application/json' }
                   })
-                //   const data=await res.json();
-                //   console.log(data);
-                //   if(data){
-                //     location.assign('/user?page=1')
-                //   }
+                  const data=await res.json();
+                  console.log(data);
+                  if(data){
+                    alert('Mail delivered')
+                    location.assign('/user?page=1')
+                  }
               }
               catch(err)
               {

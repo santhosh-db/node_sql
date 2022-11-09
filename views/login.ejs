@@ -54,10 +54,14 @@
               headers:{'Content-Type':'application/json' }
             })
             const data=await res.json();
-            console.log(data);
-            if(data){
+            if(data.user){
               alert('Login Success')
               location.assign('/user?page=1')
+            }
+            else{
+              if(data.error){
+                alert(data.error)
+              }
             }
         }
         catch(err)

@@ -16,10 +16,10 @@ const loginPost =async (req, res) => {
         if(user){
             let token = jwt.sign({ id: user.id ,name:user.name}, 'verySecretpass', { algorithm: 'HS256' }, { expiresIn: '1hr' })
             res.cookie('jwt',token,{httpOnly:true, maxAge:60*60*24*1000});
-            res.json(user);
+            res.json({user:user});
         }  
         else{
-            res.json("Invalid credintials")
+            res.json({error:"Invalid credintials"})
         }
     }             
     catch(error){
@@ -47,7 +47,6 @@ const contactGet =async (req, res) => {
 const contactPost =async (req, res) => {
     try{
         const {name,email,subject,message} = req.body
-        // res.json(req.body);
         const transporter = nodemailer.createTransport({
             service: "Gmail",
             auth: {
