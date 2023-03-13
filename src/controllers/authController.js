@@ -7,7 +7,7 @@ const path = require('path');
 const loginPost =async (req, res) => {
     try{
         const {email,password} = req.body
-        
+        console.log(req.body,"fshg");
         const user = await  User.findOne({
             where:{
                 email: email,password:password
@@ -15,11 +15,11 @@ const loginPost =async (req, res) => {
         })
         if(user){
             let token = jwt.sign({ id: user.id ,name:user.name}, 'verySecretpass', { algorithm: 'HS256' }, { expiresIn: '1hr' })
-            res.cookie('jwt',token,{httpOnly:true, maxAge:60*60*24*1000});
-            res.json({user:user});
+            //res.cookie('jwt',token,{httpOnly:true, maxAge:60*60*24*1000});
+            res.status(200).json({data:user,token:token});
         }  
         else{
-            res.json({error:"Invalid credintials"})
+            res.status(400).json({error:"Invalid credintials"})
         }
     }             
     catch(error){

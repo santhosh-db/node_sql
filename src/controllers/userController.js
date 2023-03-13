@@ -15,8 +15,9 @@ const findAll = async(req,res)=>{
         const payload= await User.findAll();
         let result = await pagination(payload, options);
         let users= result.data;
-        const html = await ejs.renderFile(path.join(__dirname,"../../views/dash.ejs"),{users:users,current:result.page,pages:result.pageCount});
-        res.send(html);
+        res.status(200).json(result)
+        // const html = await ejs.renderFile(path.join(__dirname,"../../views/dash.ejs"),{users:users,current:result.page,pages:result.pageCount});
+        // res.send(html);
         //res.json(result)
     }
     catch(error){
@@ -34,7 +35,7 @@ const findbyId = async(req,res)=>{
                 id: req.params.id
             }
         })
-        res.json(user);
+        res.status(200).json(user);
     }
     catch(error){
         res.status(400).json({
@@ -50,7 +51,8 @@ const create = async(req,res)=>{
         let custid=Number(rec.id.substring(4));
         let newId= "USR-"+(custid+1);
         const create = await  User.create({id:newId,...req.body});
-        res.redirect('/user?page=1')
+        res.status(200).json(create);
+        //res.redirect('/user?page=1')
     }
     catch(error){
         res.status(400).json({
@@ -68,8 +70,8 @@ const findbyIdAndUpdate = async(req,res)=>{
                 id: req.params.id
             }
         })
-        //res.json(users)
-        res.redirect('/user?page=1');
+        res.status(200).json(users);
+        //res.redirect('/user?page=1');
     }
     catch(error){
         res.status(400).json({
@@ -86,7 +88,8 @@ const findbyIdAndDelete = async(req,res)=>{
                 id: req.params.id
             }
         })
-        res.redirect('/user?page=1');
+        res.status(200).json(users)
+        //res.redirect('/user?page=1');
     }
     catch(error){
         res.status(400).json({
